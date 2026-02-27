@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Happy Birthday Chasmiss 🤓❤️</title>
+<style>
+body {
+  margin:0;
+  background: linear-gradient(to right, #ff9a9e, #fad0c4);
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: white;
+  overflow: hidden;
+}
+h1 { font-size: 3em; margin-top: 50px; }
+#typing { border-right: 2px solid white; padding-right: 5px; }
+p { font-size: 1.5em; width: 60%; margin: 20px auto; }
+.heart { font-size: 4em; animation: beat 1s infinite; }
+@keyframes beat {0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+button { margin-top: 30px; padding:15px 25px; font-size:1em; border:none; border-radius:10px; background:white; color:#ff6b81; cursor:pointer; }
+canvas { position: fixed; top:0; left:0; pointer-events:none; }
+#slideshow { width:300px; height:300px; margin:auto; border-radius:20px; object-fit:cover; transition: opacity 1s ease-in-out; }
+#love-counter { font-size:1.2em; margin-top:10px; }
+</style>
+</head>
+<body>
+
+<h1>Happy Birthday <span id="typing"></span> 🤓❤️</h1>
+<div class="heart">❤️</div>
+
+<p id="message">You are the best thing that ever happened to me.</p>
+
+<button onclick="showMore()">Click Me 💌</button>
+
+<img id="slideshow" src="photos/photo1.jpg" alt="Our Memories">
+
+<p id="love-counter"></p>
+
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="confetti"></canvas>
+
+<script>
+// Typing her name with one ❤️
+const text = "Chasmiss";
+let i = 0;
+function typing() { 
+  if(i<text.length){ 
+    document.getElementById("typing").innerHTML += text.charAt(i); 
+    i++; 
+    setTimeout(typing,150); 
+  } 
+}
+typing();
+
+// Button message + confetti
+function showMore() {
+  document.getElementById("message").innerHTML = "I love you more than words can explain. Thank you for being in my life. ❤️";
+  startConfetti();
+}
+
+// Soft confetti
+const canvas = document.getElementById("confetti");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let pieces = [];
+function startConfetti(){
+  pieces=[];
+  for(let i=0;i<40;i++){
+    pieces.push({x:Math.random()*canvas.width, y:Math.random()*canvas.height, size:Math.random()*5+2, speed:Math.random()*2+1});
+  }
+  animate();
+}
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  pieces.forEach(p=>{
+    ctx.fillStyle="rgba(255,255,255,0.7)";
+    ctx.fillRect(p.x,p.y,p.size,p.size);
+    p.y+=p.speed;
+    if(p.y>canvas.height)p.y=0;
+  });
+  requestAnimationFrame(animate);
+}
+
+// Photo slideshow (fade effect)
+const images = ["photos/photo1.jpg","photos/photo2.jpg","photos/photo3.jpg"]; // add all your pics
+let imgIndex=0;
+const slideshow = document.getElementById("slideshow");
+setInterval(()=>{ 
+  slideshow.style.opacity = 0;
+  setTimeout(()=>{
+    imgIndex=(imgIndex+1)%images.length; 
+    slideshow.src = images[imgIndex];
+    slideshow.style.opacity = 1;
+  },500);
+},3000);
+
+// Love counter
+function updateLoveCounter(){
+  const startDate=new Date("2025-05-10");
+  const now=new Date();
+  const diff=Math.floor((now-startDate)/(1000*60*60*24));
+  document.getElementById("love-counter").innerHTML = "Days we've been together ❤️: "+diff;
+}
+updateLoveCounter();
+setInterval(updateLoveCounter,1000*60*60); // update every hour
+</script>
+
+</body>
+</html>
